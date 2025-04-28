@@ -97,8 +97,11 @@ if page == "Home":
                         st.markdown(f"**{movie.get('title')}**")
                         st.markdown(f"⭐ {movie.get('vote_average', 0):.1f}/10")
                         
+                        # In the trending movies section
                         if st.button("View Details", key=f"trending_{movie.get('id')}"):
                             st.session_state.selected_movie = movie.get('id')
+                            # Add this line to ensure the state is saved before rerunning
+                            st.experimental_rerun()
         
         # Pagination
         total_pages = trending_movies.get("total_pages", 1)
