@@ -97,11 +97,11 @@ if page == "Home":
                         st.markdown(f"**{movie.get('title')}**")
                         st.markdown(f"⭐ {movie.get('vote_average', 0):.1f}/10")
                         
-                        # In the trending movies section
+                        # In the trending movies section where you have the View Details button
                         if st.button("View Details", key=f"trending_{movie.get('id')}"):
                             st.session_state.selected_movie = movie.get('id')
-                            # Add this line to ensure the state is saved before rerunning
-                            st.experimental_rerun()
+                            # Replace experimental_rerun with rerun
+                            st.rerun()
         
         # Pagination
         total_pages = trending_movies.get("total_pages", 1)
@@ -112,7 +112,7 @@ if page == "Home":
             if st.session_state.current_page > 1:
                 if st.button("Previous Page"):
                     st.session_state.current_page -= 1
-                    st.experimental_rerun()
+                    st.rerun()
         
         with col2:
             st.markdown(f"<div style='text-align: center;'>Page {st.session_state.current_page} of {min(total_pages, 500)}</div>", unsafe_allow_html=True)
@@ -121,7 +121,7 @@ if page == "Home":
             if st.session_state.current_page < min(total_pages, 500):
                 if st.button("Next Page"):
                     st.session_state.current_page += 1
-                    st.experimental_rerun()
+                    st.rerun()
 
 elif page == "Search":
     st.title("Search Movies")
@@ -163,7 +163,7 @@ elif page == "Search":
                 if st.session_state.current_page > 1:
                     if st.button("Previous Page"):
                         st.session_state.current_page -= 1
-                        st.experimental_rerun()
+                        st.rerun()
             
             with col2:
                 st.markdown(f"<div style='text-align: center;'>Page {st.session_state.current_page} of {min(total_pages, 500)}</div>", unsafe_allow_html=True)
@@ -172,7 +172,7 @@ elif page == "Search":
                 if st.session_state.current_page < min(total_pages, 500):
                     if st.button("Next Page"):
                         st.session_state.current_page += 1
-                        st.experimental_rerun()
+                        st.rerun()
     
     # If filters are applied but no search query, use discover
     elif filters:
@@ -204,7 +204,7 @@ elif page == "Search":
                 if st.session_state.current_page > 1:
                     if st.button("Previous Page"):
                         st.session_state.current_page -= 1
-                        st.experimental_rerun()
+                        st.rerun()
             
             with col2:
                 st.markdown(f"<div style='text-align: center;'>Page {st.session_state.current_page} of {min(total_pages, 500)}</div>", unsafe_allow_html=True)
@@ -213,7 +213,7 @@ elif page == "Search":
                 if st.session_state.current_page < min(total_pages, 500):
                     if st.button("Next Page"):
                         st.session_state.current_page += 1
-                        st.experimental_rerun()
+                        st.rerun()
 
 elif page == "Favorites":
     st.title("Your Favorites")
@@ -225,7 +225,7 @@ elif page == "Favorites":
         if st.button("Clear All Favorites"):
             st.session_state.favorites = []
             st.success("Favorites cleared!")
-            st.experimental_rerun()
+            st.rerun()
         
         # Display favorite movies
         for movie in st.session_state.favorites:
@@ -242,7 +242,7 @@ elif page == "Favorites":
                 if st.button("Remove", key=f"remove_{movie.get('id')}"):
                     st.session_state.favorites.remove(movie)
                     st.success(f"Removed {movie.get('title')} from favorites!")
-                    st.experimental_rerun()
+                    st.rerun()
             
             st.markdown("---")
 
@@ -258,4 +258,4 @@ if "selected_movie" in st.session_state and st.session_state.selected_movie:
     # Close button
     if st.button("Close Details"):
         st.session_state.selected_movie = None
-        st.experimental_rerun()
+        st.rerun()
