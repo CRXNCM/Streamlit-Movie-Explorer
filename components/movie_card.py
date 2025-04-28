@@ -61,87 +61,39 @@ def display_movie_details(movie_id):
     modal_container = st.container()
     
     with modal_container:
-        # Add a semi-transparent background and styling for modal
+        # Add styling for modal but with simpler approach
         st.markdown("""
         <style>
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
         .movie-modal {
             background-color: rgb(17, 23, 33);
             padding: 25px;
             border-radius: 15px;
-            margin: 40px auto;
+            margin: 20px 0;
             border: 1px solid rgba(250, 250, 250, 0.2);
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-            max-width: 1200px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalFadeIn 0.3s ease-out;
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .movie-modal h2, .movie-modal h3 {
-            color: #ffffff;
-        }
-        .close-button {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        .close-button button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s;
-        }
-        .close-button button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
         }
         .modal-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .modal-section:last-child {
-            border-bottom: none;
         }
         </style>
         """, unsafe_allow_html=True)
         
-        st.markdown('<div class="modal-overlay"><div class="movie-modal">', unsafe_allow_html=True)
+        # Create a more Streamlit-friendly modal
+        st.markdown('<div class="movie-modal">', unsafe_allow_html=True)
         
-        # Close button (positioned absolutely via CSS)
-        st.markdown('<div class="close-button">', unsafe_allow_html=True)
-        if st.button("✖️", key=f"close_modal_{movie_id}"):
-            st.session_state.selected_movie = None
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Header with movie title and close button
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            title = movie.get("title", "Unknown Title")
+            year = movie.get("release_date", "")[:4] if movie.get("release_date") else "Unknown Year"
+            st.markdown(f"## {title} ({year})")
         
-        # Header with movie title
-        title = movie.get("title", "Unknown Title")
-        year = movie.get("release_date", "")[:4] if movie.get("release_date") else "Unknown Year"
-        st.markdown(f"## {title} ({year})")
+        with col2:
+            if st.button("✖️ Close", key=f"close_modal_{movie_id}"):
+                st.session_state.selected_movie = None
+                st.rerun()
         
         # Movie poster and basic info
         col1, col2 = st.columns([1, 3])
@@ -154,8 +106,7 @@ def display_movie_details(movie_id):
                 st.image("https://via.placeholder.com/500x750?text=No+Image", use_container_width=True)
         
         with col2:
-            # Basic information section
-            st.markdown('<div class="modal-section">', unsafe_allow_html=True)
+            # Basic information
             st.markdown("### Movie Details")
             
             col_a, col_b, col_c = st.columns(3)
@@ -188,10 +139,10 @@ def display_movie_details(movie_id):
                     st.success(f"Added {title} to favorites!")
                 else:
                     st.warning(f"{title} is already in your favorites!")
-            st.markdown('</div>', unsafe_allow_html=True)
         
-        # Cast section
-        st.markdown('<div class="modal-section">', unsafe_allow_html=True)
+        st.markdown('<hr class="modal-section">', unsafe_allow_html=True)
+        
+        # Cast
         st.markdown("### Top Cast")
         cast_cols = st.columns(4)
         
@@ -205,10 +156,10 @@ def display_movie_details(movie_id):
                     st.image("https://via.placeholder.com/150x225?text=No+Image", width=150)
                 st.markdown(f"**{actor.get('name')}**")
                 st.markdown(f"as {actor.get('character')}")
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        # Trailer section
-        st.markdown('<div class="modal-section">', unsafe_allow_html=True)
+        st.markdown('<hr class="modal-section">', unsafe_allow_html=True)
+        
+        # Trailer
         st.markdown("### Trailer")
         videos = movie.get("videos", {})
         trailer_key = get_trailer_key(videos)
@@ -218,10 +169,10 @@ def display_movie_details(movie_id):
             st.video(trailer_url)
         else:
             st.info("No trailer available for this movie.")
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        # Similar Movies section
-        st.markdown('<div class="modal-section">', unsafe_allow_html=True)
+        st.markdown('<hr class="modal-section">', unsafe_allow_html=True)
+        
+        # Similar Movies
         st.markdown("### Similar Movies")
         similar_movies = movie.get("similar", {}).get("results", [])
         
@@ -242,6 +193,5 @@ def display_movie_details(movie_id):
                         st.rerun()
         else:
             st.info("No similar movies found.")
+        
         st.markdown('</div>', unsafe_allow_html=True)
-            
-        st.markdown('</div></div>', unsafe_allow_html=True)
