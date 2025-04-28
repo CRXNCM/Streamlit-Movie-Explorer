@@ -120,6 +120,10 @@ def display_movie_details(movie_id):
                 
                 if st.button("View Details", key=f"similar_{similar_movie.get('id')}"):
                     st.session_state.selected_movie = similar_movie.get('id')
+                    # Replace this line
                     st.experimental_rerun()
+                    
+                    # With this
+                    st.rerun()
     else:
         st.info("No similar movies found.")
