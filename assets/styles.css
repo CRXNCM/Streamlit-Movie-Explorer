@@ -1,0 +1,87 @@
+/* Custom CSS for Streamlit Movie Explorer */
+
+/* Dark theme overrides */
+.stApp {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+/* Header styling */
+h1, h2, h3 {
+    color: #ff9d00;
+}
+
+/* Card styling */
+.movie-card {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling */
+.stButton > button {
+    background-color: #ff9d00;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background-color: #ffb84d;
+    transform: scale(1.05);
+}
+
+/* Search bar styling */
+.stTextInput > div > div > input {
+    background-color: #2d2d2d;
+    color: #f0f0f0;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background-color: #1e1e1e;
+}
+
+/* Pagination styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.pagination-button {
+    margin: 0 0.5rem;
+}
+
+/* Loading animation */
+.stSpinner > div {
+    border-color: #ff9d00 !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
