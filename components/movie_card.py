@@ -58,7 +58,7 @@ def display_movie_details(movie_id):
         return
     
     # Basic information
-    st.markdown("### Movie Details")
+    st.markdown("### Movie  Details")
     
     col1, col2, col3 = st.columns(3)
     
