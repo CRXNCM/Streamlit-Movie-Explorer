@@ -247,7 +247,7 @@ elif page == "Favorites":
             st.markdown("---")
 
 # Check if a movie is selected for detailed view
-if hasattr(st.session_state, "selected_movie") and st.session_state.selected_movie:
+if "selected_movie" in st.session_state and st.session_state.selected_movie:
     # Create a modal-like effect
     st.markdown("---")
     st.subheader("Movie Details")
